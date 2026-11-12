@@ -151,40 +151,68 @@ backToTop.addEventListener("click", function() {
 
 });
 
+
+
 /* =================================
-   5. CONTACT FORM VALIDATION
+   5. CONTACT FORM
 ================================= */
 
 const contactForm = document.getElementById("contact-form");
 
-contactForm.addEventListener("submit", function(event) {
+if (contactForm) {
 
-    const name = document.getElementById("name").value.trim();
+    contactForm.addEventListener("submit", function(event) {
 
-    const email = document.getElementById("email").value.trim();
-
-    const message = document.getElementById("message").value.trim();
-
-    const formStatus = document.getElementById("form-status");
-
-    if (name === "" || email === "" || message === "") {
-
+        // Prevent default form submission
         event.preventDefault();
 
-        formStatus.textContent = "Please fill in all fields.";
+        // Get form values
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-        formStatus.style.color = "#ff7070";
+        const formStatus = document.getElementById("form-status");
 
-    } else {
+        // Validate form fields
+        if (name === "" || email === "" || message === "") {
 
-        formStatus.textContent = "Submitting your message...";
+            formStatus.textContent = "Please fill in all fields.";
+            formStatus.style.color = "#ff7070";
 
-        formStatus.style.color = "#c8a7ff";
+            return;
+        }
 
-        // Allow the form to submit normally to Netlify.
-    }
+        // Prepare email
+        const recipient = "sushantosinha0307@gmail.com";
 
-});
+        const subject = encodeURIComponent(
+            "New Portfolio Contact Message"
+        );
+
+        const body = encodeURIComponent(
+            "Name: " + name +
+            "\nEmail: " + email +
+            "\n\nMessage:\n" + message
+        );
+
+        const mailtoLink =
+            "mailto:" + recipient +
+            "?subject=" + subject +
+            "&body=" + body;
+
+        // Display confirmation
+        formStatus.textContent =
+            "✓ Your email draft is ready! Please send it from your email application.";
+
+        formStatus.style.color = "#6ee7a0";
+
+        // Open the visitor's email application
+        window.location.href = mailtoLink;
+
+    });
+
+}
+
 
 
 /* =================================
@@ -193,3 +221,4 @@ contactForm.addEventListener("submit", function(event) {
 
 document.getElementById("year").textContent =
     new Date().getFullYear();
+    
